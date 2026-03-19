@@ -1,0 +1,13 @@
+{
+  "name": "goalpath-skills",
+  "description": "AI-powered project management workflow skills for GoalPath. Discover ideas, plan milestones, implement features, and track status — all through Claude Code.",
+  "version": "1.0.0",
+  "author": {
+    "name": "GoalPath",
+    "email": "hello@goalpath.app"
+  },
+  "homepage": "https://github.com/GoalPathApp/goalpath-skills",
+  "repository": "https://github.com/GoalPathApp/goalpath-skills",
+  "license": "MIT",
+  "keywords": ["goalpath", "project-management", "milestones", "planning", "implementation"]
+}
