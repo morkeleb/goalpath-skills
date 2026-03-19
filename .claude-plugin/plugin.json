@@ -6,8 +6,8 @@
     "name": "GoalPath",
     "email": "hello@goalpath.app"
   },
-  "homepage": "https://github.com/GoalPathApp/goalpath-skills",
-  "repository": "https://github.com/GoalPathApp/goalpath-skills",
+  "homepage": "https://github.com/morkeleb/goalpath-skills",
+  "repository": "https://github.com/morkeleb/goalpath-skills",
   "license": "MIT",
   "keywords": ["goalpath", "project-management", "milestones", "planning", "implementation"]
 }
