@@ -20,6 +20,8 @@ discover → plan → implement (or work) → status
 
 ### 1. Install the GoalPath CLI and MCP server
 
+Follow the [GoalPath CLI & MCP Server guide](https://goalpath.app/docs/integrations/cli-and-mcp-server) to get set up:
+
 ```bash
 npm install -g @goalpath/cli
 goalpath login
