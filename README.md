@@ -30,9 +30,18 @@ goalpath mcp init
 
 ### 2. Install the skills plugin
 
+From your terminal:
+
+```bash
+claude plugins marketplace add morkeleb/goalpath-skills
+claude plugins install goalpath-skills
 ```
-/plugin marketplace add morkeleb/goalpath-skills
-/plugin install goalpath-skills
+
+Or from inside Claude Code:
+
+```
+/plugins marketplace add morkeleb/goalpath-skills
+/plugins install goalpath-skills
 ```
 
 ### 3. Try it
