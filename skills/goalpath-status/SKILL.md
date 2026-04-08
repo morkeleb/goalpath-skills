@@ -1,6 +1,6 @@
 ---
 name: goalpath-status
-description: "Show current GoalPath status — your assigned items, in-progress work, and blocked items. Optionally filter by project."
+description: "Use when the user wants to see their current GoalPath status, assigned items, or what to work on next. Also use when they say 'status', 'what's next', 'show my items', or want a progress overview."
 ---
 
 # GoalPath Status Check

@@ -1,6 +1,6 @@
 ---
 name: goalpath-work
-description: "Start working on a GoalPath item. Accepts a GoalPath URL or item ID. Fetches the item, sets it to Started, explores the codebase for context, and begins implementation — delegating to the right specialist agent."
+description: "Use when the user wants to work on a single GoalPath item. Also use when they say 'work on', 'start', 'pick up', or share an item URL or ID to implement."
 ---
 
 # Work on a GoalPath Item
@@ -84,12 +84,45 @@ As you complete work:
 - If blocked, use `mcp__goalpath__set_item_highlight` with `Blocked` and add a comment explaining why
 - If you find unclear requirements, use `mcp__goalpath__set_item_highlight` with `Question` and ask the user
 
-## Step 7: Finish
+## Step 7: Verify
 
 When all work is complete:
 1. Verify the build passes (run the project's build command)
 2. Verify tests pass (run the project's test suite)
-3. Set item status to `Finished` using `mcp__goalpath__set_item_status`
-4. Clear any remaining highlights using `mcp__goalpath__set_item_highlight` with `null`
-5. Add a comment summarizing what was done using `mcp__goalpath__add_comment`
-6. If a PR was created, include the PR link in the comment
+
+If either fails, fix the issues before proceeding.
+
+## Step 8: Code Review (Round 1)
+
+Use the `superpowers:requesting-code-review` skill (or dispatch a `superpowers:code-reviewer` agent) to review your changes against the item requirements. Focus on:
+- Spec compliance: Does the implementation match the item description and subtasks?
+- Missing edge cases, error handling, or acceptance criteria
+- Patterns that diverge from existing codebase conventions
+
+Fix everything the review surfaces, then re-run build and tests.
+
+## Step 9: Code Review (Round 2)
+
+Run a second code review. The first review almost always finds issues — and the fixes from round 1 often introduce new ones. This round focuses on:
+- Code quality: naming, structure, duplication, unnecessary complexity
+- Whether round 1 fixes were clean or introduced regressions
+- Anything missed in the first pass (fresh eyes catch different things)
+
+Fix any remaining issues and verify build/tests pass again.
+
+## Step 10: Finish
+
+Once code review is complete and all fixes are verified:
+1. Set item status to `Finished` using `mcp__goalpath__set_item_status`
+2. Clear any remaining highlights using `mcp__goalpath__set_item_highlight` with `null`
+3. Add a comment summarizing what was done using `mcp__goalpath__add_comment`
+4. If a PR was created, include the PR link in the comment
+
+## Red Flags
+
+- Marking an item Finished without running build and tests
+- Skipping code review — always do two rounds before marking Finished
+- Batching subtask check-offs at the end instead of as you go
+- Starting work on an item with unresolved Question/Blocked highlights without asking the user
+- Modifying code unrelated to the item's scope
+- Skipping Step 3 (Explore Context) and jumping straight to implementation

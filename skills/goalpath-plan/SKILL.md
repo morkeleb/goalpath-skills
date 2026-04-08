@@ -1,6 +1,6 @@
 ---
 name: goalpath-plan
-description: "Plan out a GoalPath milestone by reading its PRD/description and breaking it into implementation items. Accepts a GoalPath URL or milestone ID. Explores the codebase, proposes items, and creates them after user approval."
+description: "Use when a GoalPath milestone has a PRD or description and needs to be broken into implementation items. Also use when the user says 'plan', 'break down', 'create items', or wants to scope out work for a milestone."
 ---
 
 # Plan a GoalPath Milestone

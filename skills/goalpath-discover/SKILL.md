@@ -1,6 +1,6 @@
 ---
 name: goalpath-discover
-description: "Flesh out a rough idea into a GoalPath milestone with a full PRD. Accepts anything — a phrase, a vague concept, a URL to an empty milestone, or a half-formed thought. Asks probing questions, explores feasibility, drafts a PRD through iteration, and creates or updates the milestone."
+description: "Use when the user has a rough idea, vague concept, or empty milestone that needs to be fleshed out into a full PRD. Also use when they say 'discover', 'define', 'flesh out', 'write a PRD', or share a half-formed thought that needs shaping before planning."
 ---
 
 # Discover and Define a GoalPath Milestone

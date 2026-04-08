@@ -1,6 +1,6 @@
 ---
 name: goalpath-implement
-description: "Implement an entire GoalPath milestone on a single branch with a single PR. Accepts a GoalPath URL or milestone ID. Supervises subagents to implement each item, keeps GoalPath updated with progress notes and highlights, and delivers a ready-to-merge PR."
+description: "Use when the user wants to implement an entire GoalPath milestone end-to-end. Also use when they say 'implement milestone', 'build the milestone', or want all items in a milestone done on a single branch with one PR."
 ---
 
 # Implement a GoalPath Milestone
@@ -115,12 +115,30 @@ After all items are implemented:
 
 If either fails, fix the issues before proceeding.
 
-### 6b. Migration Cleanup
+### 6b. Code Review (Round 1)
+
+After build and tests pass, use the `superpowers:requesting-code-review` skill (or dispatch a `superpowers:code-reviewer` agent) to review ALL changes on the branch against the milestone PRD and item requirements. Focus on:
+- Spec compliance: Does the implementation match what was planned?
+- Missing edge cases, error handling, or acceptance criteria
+- Patterns that diverge from existing codebase conventions
+
+Fix everything the review surfaces, then re-run build and tests.
+
+### 6c. Code Review (Round 2)
+
+Run a second code review. The first review almost always finds issues — and the fixes from round 1 often introduce new ones. This round focuses on:
+- Code quality: naming, structure, duplication, unnecessary complexity
+- Whether round 1 fixes were clean or introduced regressions
+- Anything missed in the first pass (fresh eyes catch different things)
+
+Fix any remaining issues and verify build/tests pass again.
+
+### 6d. Migration Cleanup
 If database changes were made:
 - Consolidate migrations where possible
 - Document the migration purpose
 
-### 6c. Create or Update PR
+### 6e. Create or Update PR
 Push the branch and create a PR:
 ```
 ## Summary
@@ -141,7 +159,7 @@ Push the branch and create a PR:
 <List any GoalPath highlights still awaiting human response, or "None">
 ```
 
-### 6d. Post Summary
+### 6f. Post Summary
 Post a summary comment on the first item in the milestone, or report the summary to the user in the conversation.
 
 ## When to Stop and Ask
@@ -162,6 +180,7 @@ Post a summary comment on the first item in the milestone, or report the summary
 
 - Starting work on main/master branch — always use the milestone branch
 - Skipping build/test verification before PR
+- Skipping code review — always do two rounds before creating the PR
 - Batching GoalPath updates at the end instead of posting incrementally
 - Letting a subagent modify files outside its scope
 - Creating multiple PRs for one milestone
