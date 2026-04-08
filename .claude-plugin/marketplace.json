@@ -5,14 +5,14 @@
     "url": "https://goalpath.app"
   },
   "metadata": {
-    "description": "AI-powered project management workflow skills for GoalPath",
+    "description": "GoalPath workflow skills for Claude Code",
     "version": "1.0.0",
     "repository": "https://github.com/morkeleb/goalpath-skills"
   },
   "plugins": [
     {
       "name": "goalpath-skills",
-      "description": "AI-powered project management workflow skills for GoalPath. Discover ideas, plan milestones, implement features, and track status — all through Claude Code.",
+      "description": "GoalPath workflow skills for Claude Code. Discover ideas, plan milestones, implement features, and track status.",
       "source": "./",
       "skills": [
         "./skills/goalpath-discover",

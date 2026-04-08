@@ -22,8 +22,8 @@ Your input is: $ARGUMENTS
 Milestone items represent the **agreed scope/requirements**. Their GoalPath status tracks implementation progress.
 
 **How to communicate:**
-- **Progress notes**: Use `mcp__goalpath__add_comment` on **items** to post concise progress updates. Note: `add_comment` only works on items, not milestones — there is no milestone-level comment API.
-- **Highlights are for the HUMAN**: Use `Question` or `Discussion` highlights when you need input or a decision. Do NOT block work just because something is highlighted — continue with reasonable assumptions.
+- **Progress notes**: Use `mcp__goalpath__add_comment` on **items** to post concise progress updates. Note: `add_comment` only works on items, not milestones. There is no milestone-level comment API.
+- **Highlights are for the HUMAN**: Use `Question` or `Discussion` highlights when you need input or a decision. Do NOT block work just because something is highlighted. Continue with reasonable assumptions.
 - **When you highlight, always include**: (1) the question, (2) your recommended default, (3) what you will do meanwhile.
 
 ## Step 1: Intake
@@ -33,8 +33,8 @@ Parse the input to get a milestone ID:
 - If it's a raw UUID, use it directly
 
 Fetch the milestone and its items:
-1. `mcp__goalpath__get_milestone` — read the name, description/PRD, status
-2. `mcp__goalpath__list_items` with the milestone ID — get all items (these are the scope)
+1. `mcp__goalpath__get_milestone` to read the name, description/PRD, status
+2. `mcp__goalpath__list_items` with the milestone ID to get all items (these are the scope)
 3. For each item, fetch subtasks with `mcp__goalpath__list_tasks` and comments with `mcp__goalpath__list_comments`
 
 Display a brief summary: milestone name, item count, total points, any existing highlights.
@@ -63,10 +63,11 @@ Create a task list mapping the execution order.
 For each item in the planned order:
 
 ### 4a. Start the Item
+- If the item is **Rejected**, read the rejection comments to understand what needs fixing. Treat it as a bug fix.
 - Set item status to `Started` using `mcp__goalpath__set_item_status`
 
 ### 4b. Dispatch Subagent
-Delegate to the appropriate specialist agent via the Agent tool. Match the agent type to the work needed — use whatever specialist agents are available in your environment (e.g., data model agents, frontend agents, test writers, etc.).
+Delegate to the appropriate specialist agent via the Agent tool. Match the agent type to the work needed. Use whatever specialist agents are available in your environment (e.g., data model agents, frontend agents, test writers, etc.).
 
 For items spanning multiple domains, dispatch agents sequentially: data model first, then backend, then frontend.
 
@@ -77,7 +78,7 @@ Give each subagent:
 - Clear acceptance criteria
 
 ### 4c. Track Progress
-- Check off subtasks using `mcp__goalpath__check_task` as each one completes — do this incrementally, not in a batch
+- Check off subtasks using `mcp__goalpath__check_task` as each one completes. Do this incrementally, not in a batch
 - If blocked, set `Blocked` highlight on the item with a comment explaining the blocker, your recommended workaround, and what you'll do meanwhile
 - If requirements are unclear, set `Question` highlight with the question, your default recommendation, and the assumption you'll proceed with
 
@@ -103,21 +104,21 @@ Set item status to `Finished` using `mcp__goalpath__set_item_status`.
 Maintain a running "Assumptions & Decisions" awareness:
 - When you make an assumption, document it in the relevant item comment
 - When the user responds to a highlight, clear it (`mcp__goalpath__set_item_highlight` with `null`) and adjust implementation if needed
-- Do NOT wait for highlight resolution before continuing — make a reasonable choice and note it
+- Do NOT wait for highlight resolution before continuing. Make a reasonable choice and note it
 
 ## Step 6: Finalization
 
 After all items are implemented:
 
 ### 6a. Verify
-1. Run the project's build command — must pass with no errors
-2. Run the project's test suite — must pass with no failures
+1. Run the project's build command. Must pass with no errors.
+2. Run the project's test suite. Must pass with no failures.
 
 If either fails, fix the issues before proceeding.
 
 ### 6b. Code Review (Round 1)
 
-After build and tests pass, use the `superpowers:requesting-code-review` skill (or dispatch a `superpowers:code-reviewer` agent) to review ALL changes on the branch against the milestone PRD and item requirements. Focus on:
+After build and tests pass, dispatch a code review agent to review ALL changes on the branch against the milestone PRD and item requirements. Focus on:
 - Spec compliance: Does the implementation match what was planned?
 - Missing edge cases, error handling, or acceptance criteria
 - Patterns that diverge from existing codebase conventions
@@ -126,7 +127,7 @@ Fix everything the review surfaces, then re-run build and tests.
 
 ### 6c. Code Review (Round 2)
 
-Run a second code review. The first review almost always finds issues — and the fixes from round 1 often introduce new ones. This round focuses on:
+Run a second code review. The first review almost always finds issues, and the fixes from round 1 often introduce new ones. This round focuses on:
 - Code quality: naming, structure, duplication, unnecessary complexity
 - Whether round 1 fixes were clean or introduced regressions
 - Anything missed in the first pass (fresh eyes catch different things)
@@ -178,9 +179,9 @@ Post a summary comment on the first item in the milestone, or report the summary
 
 ## Red Flags
 
-- Starting work on main/master branch — always use the milestone branch
+- Starting work on main/master branch (always use the milestone branch)
 - Skipping build/test verification before PR
-- Skipping code review — always do two rounds before creating the PR
+- Skipping code review (always do two rounds before creating the PR)
 - Batching GoalPath updates at the end instead of posting incrementally
 - Letting a subagent modify files outside its scope
 - Creating multiple PRs for one milestone

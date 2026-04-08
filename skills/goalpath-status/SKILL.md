@@ -14,7 +14,7 @@ Show the current state of work in GoalPath. Optional filter: $ARGUMENTS
 - **Started**: Actively being worked on (WIP)
 - **Finished**: Code complete, tests pass, ready for review/acceptance
 - **Delivered**: Shipped to production
-- **Rejected**: Needs rework — read comments for context
+- **Rejected**: Needs rework. Read comments for context.
 
 ### Highlights (Flags)
 - **Question**: Needs clarification before work can continue
@@ -25,7 +25,7 @@ Show the current state of work in GoalPath. Optional filter: $ARGUMENTS
 Items are returned in priority order (by weight). First item in the list = highest priority = work on next.
 
 ### Estimates
-Points use fibonacci scale: 1 (trivial), 2 (small), 3 (medium), 5 (large), 8 (very large).
+Points use fibonacci scale: 1 (trivial), 2 (small), 3 (medium), 5 (large), 8 (very large). Only Feature items have estimates.
 
 ## Step 1: Get Context
 
@@ -42,7 +42,7 @@ For each relevant project, use `mcp__goalpath__list_my_items` to get items assig
 Group and display items by status. Use compact formatting:
 
 **Blocked / Needs Attention**
-- Items with `Blocked`, `Question`, or `Discussion` highlights — show these FIRST
+- Items with `Blocked`, `Question`, or `Discussion` highlights. Show these FIRST
 - Show the highlight type, title, estimate, and most recent comment for context
 
 **In Progress** (Started)
@@ -54,7 +54,7 @@ Group and display items by status. Use compact formatting:
 - Show title, type, and estimate
 
 **Recently Finished**
-- List items with status `Finished` (omit Delivered items — they're done)
+- List items with status `Finished` (omit Delivered items, they're done)
 
 After the item list, show a quick summary line:
 > X in progress | Y ready | Z blocked | N total points in flight
@@ -67,4 +67,4 @@ Based on the status, suggest what to work on next:
 - If work is in progress, ask if the user wants to continue with `/goalpath-skills:goalpath-work <id>`
 - If items have Question highlights, suggest resolving those before starting new work
 
-Keep the output concise — this is a quick status check, not a detailed report.
+Keep the output concise. This is a quick status check, not a detailed report.
