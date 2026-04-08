@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "goalpath-skills",
+  "description": "AI-powered project management workflow skills for GoalPath",
+  "owner": {
+    "name": "GoalPath",
+    "email": "hello@goalpath.app"
+  },
+  "plugins": [
+    {
+      "name": "goalpath-skills",
+      "description": "AI-powered project management workflow skills for GoalPath. Discover ideas, plan milestones, implement features, and track status — all through Claude Code.",
+      "category": "productivity",
+      "source": ".",
+      "homepage": "https://github.com/morkeleb/goalpath-skills"
+    }
+  ]
+}
