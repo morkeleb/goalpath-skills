@@ -83,10 +83,12 @@ Give each subagent:
 - If requirements are unclear, set `Question` highlight with the question, your default recommendation, and the assumption you'll proceed with
 
 ### 4d. Commit
-After each item (or meaningful chunk), commit with a descriptive message:
+After each item (or meaningful chunk), commit with a descriptive message that includes the item's `#GP-N` tag:
 ```
-feat: <what changed> [<item-title>]
+feat: <what changed> #GP-47
 ```
+
+**Always tag commits with the item's short number.** Get it from the `number` field on `mcp__goalpath__get_item`. Both `#GP-47` and `#GP47` formats work. Use the tag in commit messages, branch names, and PR titles. This links code activity to the item in GoalPath's git integration.
 
 ### 4e. Post Progress Note
 After completing each item, post a concise comment on the GoalPath item:

@@ -76,6 +76,25 @@ For items that span multiple domains, run agents sequentially: data model change
 
 Follow the patterns established in the codebase. Read before you write. Understand existing conventions before introducing new code.
 
+### Commit Tagging for Git Integration
+
+Every GoalPath item has a short number (e.g., `#GP-47`) visible on the item card and in the detail view. **Always include the item's `#GP-N` tag in your commit messages, branch names, and PR titles.** This links code activity to the item automatically.
+
+Both `#GP-47` and `#GP47` (without hyphen) are supported. Use whichever is easier.
+
+```
+# Commit message
+git commit -m "Fix auth redirect loop #GP-47"
+
+# Branch name
+git checkout -b feature/GP-47-auth-redirect
+
+# PR title
+feat: fix auth redirect loop #GP-47
+```
+
+To get the item's short number, check the `number` field from `mcp__goalpath__get_item`. If the item has `number: 47`, use `#GP-47` in all commits for this work session.
+
 ## Step 6: Track Progress
 
 As you complete work:
