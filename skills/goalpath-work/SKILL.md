@@ -78,7 +78,7 @@ Follow the patterns established in the codebase. Read before you write. Understa
 
 ### Commit Tagging for Git Integration
 
-Every GoalPath item has a short number (e.g., `#GP-47`) visible on the item card and in the detail view. **Always include the item's `#GP-N` tag in your commit messages, branch names, and PR titles.** This links code activity to the item automatically.
+Every GoalPath item has a short number (e.g., `#GP-47`) visible on the item card and in the detail view. **Always include the item's `#GP-N` tag in your commit messages, branch names, and PR titles.** GoalPath's commit-linking integration is live: when a tagged commit is pushed (or a PR with a tagged title is merged), the link appears under the item's activity timeline within seconds.
 
 Both `#GP-47` and `#GP47` (without hyphen) are supported. Use whichever is easier.
 
@@ -93,7 +93,12 @@ git checkout -b feature/GP-47-auth-redirect
 feat: fix auth redirect loop #GP-47
 ```
 
-To get the item's short number, check the `number` field from `mcp__goalpath__get_item`. If the item has `number: 47`, use `#GP-47` in all commits for this work session.
+To find the item's `#GP-N`, use whichever of these is most convenient:
+- `mcp__goalpath__list_my_items` and `mcp__goalpath__list_items` show `#GP-N` directly in the table
+- `mcp__goalpath__create_item` echoes the new item's `#GP-N` in its response
+- `mcp__goalpath__get_item` returns the number in its `number` field
+
+If a tagged commit doesn't show up under the item, check the project's Settings → Integrations page — the repository needs to be connected and its webhook configured.
 
 ## Step 6: Track Progress
 

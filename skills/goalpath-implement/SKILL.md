@@ -88,7 +88,9 @@ After each item (or meaningful chunk), commit with a descriptive message that in
 feat: <what changed> #GP-47
 ```
 
-**Always tag commits with the item's short number.** Get it from the `number` field on `mcp__goalpath__get_item`. Both `#GP-47` and `#GP47` formats work. Use the tag in commit messages, branch names, and PR titles. This links code activity to the item in GoalPath's git integration.
+**Always tag commits with the item's short number.** The easiest sources are the `#GP-N` column in `mcp__goalpath__list_items` / `list_my_items`, the response from `mcp__goalpath__create_item`, or the `number` field from `mcp__goalpath__get_item`. Both `#GP-47` and `#GP47` formats work. Use the tag in commit messages, branch names, and PR titles. The integration is live: links appear under the item's activity timeline within seconds of the commit being pushed (or PR being merged).
+
+If a tagged commit doesn't show up under the item, check the project's Settings → Integrations page — the repository needs to be connected and its webhook configured.
 
 ### 4e. Post Progress Note
 After completing each item, post a concise comment on the GoalPath item:
