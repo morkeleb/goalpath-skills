@@ -1,7 +1,7 @@
 {
   "name": "goalpath-skills",
   "description": "GoalPath workflow skills for Claude Code. Discover ideas, plan milestones, implement features, and track status.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "GoalPath",
     "email": "hello@goalpath.app"
