@@ -156,12 +156,12 @@ When the user is satisfied:
 1. If working from an existing milestone URL:
    - Update the milestone description with the PRD using `mcp__goalpath__update_milestone`
    - Update the name if the original was too vague
-   - Set status to `Planned` if it was `Concept`
+   - **Leave the status as-is.** Discovery produces a PRD, not a plan — the milestone stays in `Concept` until items are created. `goalpath-plan` owns the `Concept → Planned` transition.
 
 2. If starting from a raw idea:
    - Create a new milestone using `mcp__goalpath__create_milestone` with the refined name
    - Update it with the PRD description using `mcp__goalpath__update_milestone`
-   - Set status to `Concept` or `Planned` depending on how defined it is
+   - **Leave the status at `Concept`** (the default). Same rule: `Planned` means "has concrete implementation items", and discovery doesn't create those — `goalpath-plan` does.
 
 3. Offer the handoff:
    > "The PRD is saved. Want to break this into implementation items? Use `/goalpath-skills:goalpath-plan <milestone-url>`"
