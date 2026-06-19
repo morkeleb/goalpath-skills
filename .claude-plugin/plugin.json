@@ -1,7 +1,7 @@
 {
   "name": "goalpath-skills",
-  "description": "GoalPath workflow skills for Claude Code. Discover ideas, plan milestones, implement features, and track status.",
-  "version": "1.0.2",
+  "description": "GoalPath workflow skills for Claude Code. Discover ideas, plan milestones, implement features, and track status. Bundles the hosted GoalPath MCP server so a single install gets both the skills and the underlying tools.",
+  "version": "1.1.0",
   "author": {
     "name": "GoalPath",
     "email": "hello@goalpath.app"
@@ -9,5 +9,14 @@
   "homepage": "https://github.com/morkeleb/goalpath-skills",
   "repository": "https://github.com/morkeleb/goalpath-skills",
   "license": "MIT",
-  "keywords": ["goalpath", "project-management", "milestones", "planning", "implementation"]
+  "keywords": ["goalpath", "project-management", "milestones", "planning", "implementation"],
+  "mcpServers": {
+    "goalpath": {
+      "type": "http",
+      "url": "https://goalpath.app/api/mcp",
+      "headers": {
+        "Authorization": "Bearer ${GOALPATH_API_KEY}"
+      }
+    }
+  }
 }

@@ -18,31 +18,32 @@ discover → plan → implement (or work) → status
 
 ## Quick Start
 
-### 1. Install the GoalPath CLI and MCP server
+### 1. Get your API key
 
-Follow the [GoalPath CLI & MCP Server guide](https://goalpath.app/docs/integrations/cli-and-mcp-server):
-
-```bash
-npm install -g @goalpath/cli
-goalpath login                # paste your API key from goalpath.app/profile/api-keys
-goalpath project link         # links your repo to a GoalPath project
-goalpath mcp init             # auto-detects Claude Code, Cursor, VS Code, etc.
-```
-
-### 2. Install the skills plugin
-
-From your terminal:
+Grab one from [goalpath.app/profile/api-keys](https://goalpath.app/profile/api-keys) and export it:
 
 ```bash
-claude plugins marketplace add morkeleb/goalpath-skills
-claude plugins install goalpath-skills
+export GOALPATH_API_KEY="gp_..."
 ```
 
-Or from inside Claude Code:
+(Add it to `~/.zshrc` / `~/.bashrc` so it persists across sessions.)
+
+### 2. Install the plugin
+
+The plugin bundles **both the skills and the hosted GoalPath MCP server** — one install gets you everything.
+
+From inside Claude Code:
 
 ```
-/plugins marketplace add morkeleb/goalpath-skills
-/plugins install goalpath-skills
+/plugin marketplace add morkeleb/goalpath-skills
+/plugin install goalpath-skills
+```
+
+Or from your terminal:
+
+```bash
+claude plugin marketplace add morkeleb/goalpath-skills
+claude plugin install goalpath-skills
 ```
 
 ### 3. Try it
@@ -52,6 +53,40 @@ Or from inside Claude Code:
 ```
 
 Claude will ask probing questions, research competitors, check your codebase for feasibility, and draft a PRD. When you're happy with it, the PRD is saved as a GoalPath milestone, ready to plan.
+
+## Which install path should I use?
+
+This plugin uses the **hosted MCP server** at `https://goalpath.app/api/mcp` — the recommended path for most users. Schema updates ship the instant we deploy, no client republish or reinstall needed, and the same endpoint works on every Claude surface (Code, Desktop, web).
+
+There's also an **alternative install** via the `@goalpath/cli` package that runs the MCP server locally. The one real reason to pick it: it walks up from your working directory to find a `.goalpath` project-link file, so the MCP automatically knows which project you're in based on which repo you're sitting in. If you switch between several GoalPath projects from different local repos, that auto-binding is a meaningful quality-of-life win — tools like `list_items` and `get_work_queue` Just Work without you setting a project each time.
+
+**Pick the alternative install if** you frequently switch between multiple GoalPath projects from their local repo directories and want the MCP to bind by cwd.
+
+**Stick with the default plugin install if** you mostly work on one or two projects, want the simplest setup, or use Claude on mobile / claude.ai web (which the CLI can't reach). You can still pick the project on a session basis with `set_active_project`.
+
+See [Alternative install: local CLI](#alternative-install-local-cli) below.
+
+## Using GoalPath on Claude Desktop / claude.ai web
+
+The plugin install above is Claude Code only. The same hosted MCP server works on other Claude surfaces — you add it as a custom connector:
+
+**Claude Desktop** — add to `claude_desktop_config.json` (Settings → Developer → Edit Config):
+
+```json
+{
+  "mcpServers": {
+    "goalpath": {
+      "type": "http",
+      "url": "https://goalpath.app/api/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_KEY" }
+    }
+  }
+}
+```
+
+**claude.ai web** — Settings → Connectors → Add custom connector. URL: `https://goalpath.app/api/mcp`, auth: Bearer token (your API key).
+
+Skills don't transfer to Desktop / web (they're Claude Code only), but every `mcp__goalpath__*` tool the skills call does — you can drive the same workflows by asking Claude in plain English.
 
 ## Skills in Detail
 
@@ -126,6 +161,26 @@ Shows your assigned items grouped by status: blockers first, then in-progress, t
 | **Highlight** | A flag on an item (Question, Blocked, or Discussion) to surface issues. |
 | **Estimate** | Fibonacci points (1, 2, 3, 5, 8) on Features only. Calibrated so 1 point ≈ 30 min with AI assistance. |
 | **Status flow** | NotStarted → Started → Finished → Delivered |
+
+## Alternative install: local CLI
+
+If you want the cwd-aware project resolution (see ["Which install path should I use?"](#which-install-path-should-i-use) above), install the CLI MCP server instead of relying on the hosted one bundled with this plugin.
+
+```bash
+npm install -g @goalpath/cli
+goalpath login                # paste your API key from goalpath.app/profile/api-keys
+goalpath project link         # creates a .goalpath file in the current repo
+goalpath mcp init             # auto-detects Claude Code, Cursor, VS Code, etc.
+```
+
+`goalpath project link` writes a `.goalpath` file at the repo root. The CLI's MCP server walks up the tree from your current directory to find that file and binds to the matching project — so when Claude Code is running in `~/code/myrepo`, tools auto-scope to the project that repo is linked to.
+
+After installing the CLI, **either**:
+
+- **Use only the CLI MCP**: don't install the `goalpath-skills` plugin's bundled MCP — set `GOALPATH_API_KEY=""` (empty) so the plugin's auth header is invalid and the CLI's `mcp init` takes over the registration. Or skip this plugin entirely and rely on the CLI for both MCP and (manual) skill workflows.
+- **Use both, prefer the CLI**: rename the plugin's bundled server so it doesn't shadow the CLI's registration. This is fiddly — most users picking the CLI path won't want the plugin in the same project.
+
+Full setup details: [GoalPath CLI & MCP Server guide](https://goalpath.app/docs/integrations/cli-and-mcp-server).
 
 ## Local Development
 
