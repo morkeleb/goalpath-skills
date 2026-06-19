@@ -18,17 +18,7 @@ discover → plan → implement (or work) → status
 
 ## Quick Start
 
-### 1. Get your API key
-
-Grab one from [goalpath.app/profile/api-keys](https://goalpath.app/profile/api-keys) and export it:
-
-```bash
-export GOALPATH_API_KEY="gp_..."
-```
-
-(Add it to `~/.zshrc` / `~/.bashrc` so it persists across sessions.)
-
-### 2. Install the plugin
+### 1. Install the plugin
 
 The plugin bundles **both the skills and the hosted GoalPath MCP server** — one install gets you everything.
 
@@ -45,6 +35,10 @@ Or from your terminal:
 claude plugin marketplace add morkeleb/goalpath-skills
 claude plugin install goalpath-skills
 ```
+
+### 2. Log in on first use
+
+The first time Claude calls a GoalPath tool, a browser window will open asking you to authorize Claude to use your GoalPath account. Click approve. That's it — no API key copy-paste, no env vars to set. Auth is OAuth 2.0; tokens are stored by Claude and refreshed automatically.
 
 ### 3. Try it
 
@@ -68,7 +62,7 @@ See [Alternative install: local CLI](#alternative-install-local-cli) below.
 
 ## Using GoalPath on Claude Desktop / claude.ai web
 
-The plugin install above is Claude Code only. The same hosted MCP server works on other Claude surfaces — you add it as a custom connector:
+The plugin install above is Claude Code only. The same hosted MCP server works on other Claude surfaces — add it as a custom connector. Auth is OAuth on every surface: you log in via browser once, no API key needed.
 
 **Claude Desktop** — add to `claude_desktop_config.json` (Settings → Developer → Edit Config):
 
@@ -77,14 +71,15 @@ The plugin install above is Claude Code only. The same hosted MCP server works o
   "mcpServers": {
     "goalpath": {
       "type": "http",
-      "url": "https://goalpath.app/api/mcp",
-      "headers": { "Authorization": "Bearer YOUR_API_KEY" }
+      "url": "https://goalpath.app/api/mcp"
     }
   }
 }
 ```
 
-**claude.ai web** — Settings → Connectors → Add custom connector. URL: `https://goalpath.app/api/mcp`, auth: Bearer token (your API key).
+Desktop will open a browser window the first time it connects.
+
+**claude.ai web** — Settings → Connectors → Add custom connector. Just the URL `https://goalpath.app/api/mcp`; you'll be prompted to authorize on first use.
 
 Skills don't transfer to Desktop / web (they're Claude Code only), but every `mcp__goalpath__*` tool the skills call does — you can drive the same workflows by asking Claude in plain English.
 
@@ -175,10 +170,7 @@ goalpath mcp init             # auto-detects Claude Code, Cursor, VS Code, etc.
 
 `goalpath project link` writes a `.goalpath` file at the repo root. The CLI's MCP server walks up the tree from your current directory to find that file and binds to the matching project — so when Claude Code is running in `~/code/myrepo`, tools auto-scope to the project that repo is linked to.
 
-After installing the CLI, **either**:
-
-- **Use only the CLI MCP**: don't install the `goalpath-skills` plugin's bundled MCP — set `GOALPATH_API_KEY=""` (empty) so the plugin's auth header is invalid and the CLI's `mcp init` takes over the registration. Or skip this plugin entirely and rely on the CLI for both MCP and (manual) skill workflows.
-- **Use both, prefer the CLI**: rename the plugin's bundled server so it doesn't shadow the CLI's registration. This is fiddly — most users picking the CLI path won't want the plugin in the same project.
+If you've installed both, the plugin's bundled MCP server and the CLI's `goalpath mcp init` registration may both try to claim the `goalpath` server name. Pick one: either skip this plugin entirely and rely on the CLI for both MCP and (manual) skill workflows, or rename the CLI's registration when you `mcp init` so they don't shadow each other. Most users picking the CLI path won't also want the plugin in the same workspace.
 
 Full setup details: [GoalPath CLI & MCP Server guide](https://goalpath.app/docs/integrations/cli-and-mcp-server).
 
